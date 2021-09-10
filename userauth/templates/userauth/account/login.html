@@ -1,5 +1,6 @@
 {% extends 'account/base_card.html' %}
 
+{% load socialaccount %}
 
 
 {% block title %}Sign In{% endblock %}
@@ -9,6 +10,8 @@
 {% endblock %}
 
 {% block card-body %}
+
+    {% get_providers as socialaccount_providers %}
 
     <form method="POST" action="{% url 'account_login' %}">
         {% csrf_token %}
@@ -20,6 +23,11 @@
         </div>
         <button type="submit" class="btn btn-outline-primary">Sign In </button>
     </form>
+    {% if socialaccount_providers %}
+        <br>
+        <p> or sign in with one of your existing third party accounts:</p>
+        {% include "socialaccount/provider_list.html" with process="login" %}
+    {% endif %}
 
 {% endblock %}
 
